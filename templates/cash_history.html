@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cash History</title>
+</head>
+<body>
+    <h1>Cash History</h1>
+    {% for record in cash_history %}
+        <p>At {{ record.timestamp }}, the user had {{ record.cash }} in their account.</p>
+    {% endfor %}
+</body>
+</html>

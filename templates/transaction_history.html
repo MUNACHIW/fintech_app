@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='Synchystry.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
+	<link rel="stylesheet" href="{{url_for('static', filename='aos/aos.css')}}">
+	<link rel="stylesheet" href="{{url_for('static', filename='bootstrap-icons/bootstrap-icons.css')}}">
+	<link rel="stylesheet" href="{{url_for('static', filename='boxicons/css/boxicons.min.css')}}">
+	<link href="{{url_for('static', filename='glightbox/css/glightbox.css')}}" rel="stylesheet">
+	<link href="{{url_for('static', filename='remixicon/remixicon.css')}}" rel="stylesheet">
+	<link href="{{url_for('static', filename='swiper/swiper-bundle.min.css')}}" rel="stylesheet">
+    <title>Transaction History</title>
+</head>
+<body>
+    <header id="header" class="fixed-top ">
+		<div class="container d-flex align-items-center">
+	
+		  <h1 class="logo me-auto"><a href="/">MONRCH</a></h1>
+		  <!-- Uncomment below if you prefer to use an image logo -->
+		  <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+	
+		  <nav id="navbar" class="navbar">
+			<ul>
+			  <li><a class="nav-link scrollto active" href="/">Home</a></li>
+			  <li><a class="nav-link scrollto" href="/about">About</a></li>
+			  <li><a class="nav-link scrollto" href="/transaction_history">Transctions</a></li>
+			  <li><a class="nav-link scrollto" href="/users">Users</a></li>
+			  <li><a class="nav-link   scrollto" href="/Covenant.com">About_Dev</a></li>
+			  <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+				<ul>
+				  <li><a href="/send_cash">Send_cash</a></li>
+				  <li><a href="/blog">Blog</a></li>
+				  <li><a href="/userprofile">User_Profile</a></li>
+				  <li><a href="/logout">Logout</a></li>
+				</ul>
+			  </li>
+			  <li><a class="nav-link scrollto" href="/contact">Contact</a></li>
+			  <li><a class="getstarted scrollto" href="/about">Get Started</a></li>
+			</ul>
+			<i class="bi bi-list mobile-nav-toggle"></i>
+		  </nav><!-- .navbar -->
+	
+		</div>
+	   </header>
+
+    <section class="bg-body-secondary my-5 ">
+         </div>
+         <h1>Transaction History</h1>
+            <a href="/send_cash">
+            <div class="calender-icon-wrapper"> 
+                <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 13a1 1 0 110-2 1 1 0 010 2zM8 17a1 1 0 110-2 1 1 0 010 2zM11 16a1 1 0 102 0 1 1 0 00-2 0zM16 17a1 1 0 110-2 1 1 0 010 2zM11 12a1 1 0 102 0 1 1 0 00-2 0zM16 13a1 1 0 110-2 1 1 0 010 2zM8 7a1 1 0 000 2h8a1 1 0 100-2H8z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M6 3a3 3 0 00-3 3v12a3 3 0 003 3h12a3 3 0 003-3V6a3 3 0 00-3-3H6zm12 2H6a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V6a1 1 0 00-1-1z" fill="currentColor"/></svg>
+            </div>
+            </a>
+        </div>
+    <table class="table table-light  table-hover ">  
+        <tr>
+            <th class = "text-center">Receiver</th>
+            <th class = "text-center">Amount</th>
+            <th class = "text-center">Timestamp</th>
+        </tr>
+        {% for transaction in sent_transactions %}
+        <tr>
+            <td class = "text-center">{{ transaction.receiver_username }}</td>
+            <td class = "text-center">{{ transaction.amount }}</td>
+            <td class = "text-center">{{ transaction.timestamp.strftime('%Y-%m-%d %H:%M:%S')  }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+
+            <th class = "text-center">Sender</th>
+            <th class = "text-center">Amount</th>
+            <th class = "text-center">Timestamp</th>
+        </tr>
+        {% for transaction in received_transactions %}
+        <tr>
+            <td class="text-center ">{{  transaction.sender_username }}</td>
+            <td class="text-center ">{{ transaction.amount }}</td>
+            <td class="text-center">{{ transaction.timestamp.strftime('%Y-%m-%d %H:%M:%S')  }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+    
+</section>
+</body>
+<script src="{{url_for('static', filename='script.js')}}"></script>
+</html>

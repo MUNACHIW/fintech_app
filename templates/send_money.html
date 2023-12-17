@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='Synchystry.png') }}">
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <title>Document</title>
+</head>
+<body>
+  <div class="nav">
+		<div class="logo">
+			<h1>MONRCH</h1>
+		</div>
+		<ul>
+			<li><a href="/">Wallets</a></li>
+			<li><a href="/users">Users</a></li>
+			<li><a href="/userprofile">Userprofile</a></li>
+			<li><a href="/blog">Blog</a></li>
+			<li><a href="/about">About</a></li>
+		</ul>
+		<a href="/logout" class="logout">logout</a>
+		<div class="icon">
+			<i class="bi bi-list"></i>
+		</div>
+	</div> 
+    <div class="balance-wrapper-cover">
+      <div class="balance-wrapper">
+    <form action="/send_cash" class="formholder" method="post"  mimetype="application/json">
+        {% with messages = get_flashed_messages() %}
+        {%if messages%}
+        {%for msg in messages%}
+          <h1 class="flashlogout">{{msg}} </h1>
+        {%endfor%}
+        {%endif%}
+      {% endwith%}
+      <h1>Send Cash</h1>
+        <label for="receiver"><h2>Receiver:</h2></label><br>
+        <input type="name" class="receiver" id="receiver" name="receiver"><br>
+        <label for="amount"><h2>Amount:</h2></label><br>
+        <input type="number" class="receiver" id="amount" name="amount" required min="1"><br>
+        <input type="submit" class="send" value="Submit">
+    </form>
+    </div>
+    </div>
+</body>
+<script>
+
+  var receiver = document.getElementById('receiver');
+  var amount = document.getElementById('amount');
+
+  function payWithPaystack() {
+      var handler = PaystackPop.setup({
+          key: 'pk_test_f372122aa820fddc82f96ba33c6ee3fd25830229', // Replace with your public key
+          email: receiver.value,     // Replace with customer's email
+          amount: amount.value * 100,      // Convert amount to kobo
+          currency: 'NGN',
+          ref: ''+Math.floor((Math.random() * 1000000000) + 1), // Generate a random reference number
+          callback: function(response) {
+              // Make a POST request to your server with the reference and the receiver's account number
+              fetch('/send_cash', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                      reference: response.reference,
+                      receiver: receiver.value,
+                      amount: amount.value
+                  }),
+              })
+              .then((response) => response.json())
+              .then((data) => {
+                  alert(data.message);
+              })
+              .catch((error) => {
+                  console.error('Error:', error);
+              });
+          },
+          onClose: function() {
+              alert('Transaction cancelled');
+          }
+      });
+      handler.openIframe();
+  }
+
+
+
+  const nav = document.querySelector('.nav');
+ window.addEventListener('scroll', ()=>{
+   if(window.scrollY > 220){
+     nav.classList.add("activeinit");
+   }else{
+     nav.classList.remove("activeinit")
+   }
+ })
+</script>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+{% if blog %}
+{%for blog  in blog%}
+ <div class="commentuser">
+    <img  id="myImg" src="{{ url_for('blog_file', filename=blog.image) }}"  alt="Profile Picture">
+  <h3 >{{ blog.title}}</h3>
+  <p class="timestamp">Posted on: {{ blog.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+  <i class="parablog">{{blog.content}}</i>
+ </div>
+ {% endfor %}
+ {% else %}
+ <h4>No Blog POST</h4>
+{% endif %}
+</body>
+</html>

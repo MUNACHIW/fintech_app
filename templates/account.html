@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='Synchystry.png') }}">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Userprofile</title>
+</head>
+<body>
+	<div class="nav">
+		<div class="logo">
+			<h1>MONRCH</h1>
+		</div>
+		<ul>
+			<li><a href="/">Wallets</a></li>
+			<li><a href="/users">Users</a></li>
+			<li><a href="/userprofile">Userprofile</a></li>
+			<li><a href="/blog">Blog</a></li>
+			<li><a href="/about">About</a></li>
+		</ul>
+		<a href="/logout" class="logout">logout</a>
+		<div class="icon">
+			<i class="bi bi-list"></i>
+		</div>
+	</div> 
+	<div class="header">
+		<div class="menu-icon-wrapper" onclick="mobilenav()">
+			<div class="dots-wrapper">
+				<div class="light-dot"></div>
+				<div class="dark-dot"></div>
+			</div>
+			<div class="dots-wrapper" >
+				<div class="dark-dot"></div>
+				<div class="light-dot"></div>
+			</div>
+		</div>
+		<div class="menu-icon-wrapper2">
+			<div class="dots-wrapper">
+				<div class="light-dot"></div>
+				<div class="dark-dot"></div>
+			</div>
+			<div class="dots-wrapper" >
+				<div class="dark-dot"></div>
+				<div class="light-dot"></div>
+			</div>
+		</div>
+        <div class="wallets">
+            {% with messages = get_flashed_messages() %}
+            {%if messages%}
+            {%for msg in messages%}
+              <h1 class="flashlogout">{{msg}} </h1>
+            {%endfor%}
+            {%endif%}
+          {% endwith%}
+         </div>
+         
+            <a href="/send_cash">
+            <div class="calender-icon-wrapper"> 
+                <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 13a1 1 0 110-2 1 1 0 010 2zM8 17a1 1 0 110-2 1 1 0 010 2zM11 16a1 1 0 102 0 1 1 0 00-2 0zM16 17a1 1 0 110-2 1 1 0 010 2zM11 12a1 1 0 102 0 1 1 0 00-2 0zM16 13a1 1 0 110-2 1 1 0 010 2zM8 7a1 1 0 000 2h8a1 1 0 100-2H8z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M6 3a3 3 0 00-3 3v12a3 3 0 003 3h12a3 3 0 003-3V6a3 3 0 00-3-3H6zm12 2H6a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V6a1 1 0 00-1-1z" fill="currentColor"/></svg>
+            </div>
+            </a>
+        </div>
+  <section class="balance-wrapper-cover">
+    <div class="balance-wrapper ">
+     <img  id="myImg"  class="userimages" src="{{ url_for('uploaded_file', filename=user.profile_pic) }}" width="200px" height="200px" alt="Profile Picture">
+     <h3>{{username}}</h3>
+     <h2>{{email}}</h2>
+	 <h2>{{phonenumber}}</h2>
+     <div>
+
+     </div>
+    </div>
+  </section>
+  <div class="hr"></div>
+
+	<div class="activity-wrapper">
+		<h3>Your activitiy</h3>
+		<div class="expense-btn">
+			<h4><a href="/transaction_history">Transactions</a></h4>
+		</div>
+	</div>
+   <div id="myModal" class="modal">
+	<span class="close">&times;</span>
+	<img class="modal-content" id="img01" alt="fmff">
+  </div>
+
+  <div class="w-50">
+	<canvas id="myChart" ></canvas>
+</div> 
+</body>
+<script src="{{url_for('static', filename='script.js')}}"></script>
+<script>
+	// Parse the data from the Flask route
+	let data = JSON.parse('{{ data | tojson | safe }}');
+
+	// Create the chart
+	new Chart(document.getElementById('myChart'), {
+		type: 'doughnut',
+		data: {
+			labels: data.labels,
+			datasets: [{
+				label: '# of Account history',
+				data: data.values,
+				borderWidth: 2
+			}]
+		},
+		options: {
+			scales: {
+				y: {
+					beginAtZero: true
+				}
+			}
+		}
+	});
+		const nav = document.querySelector('.nav');
+	window.addEventListener('scroll', ()=>{
+		if(window.scrollY > 220){
+			nav.classList.add("activeinit");
+		}else{
+			nav.classList.remove("activeinit")
+		}
+	})
+</script>
+</html>

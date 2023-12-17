@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transactions</title>
+</head>
+<body>
+    <h1>Transactions</h1>
+    {% for transaction in transactions %}
+        <p>
+            Transaction ID: {{ transaction.id }}<br>
+            Sender ID: {{ transaction.sender_id }}<br>
+            Receiver ID: {{ transaction.receiver_id }}<br>
+            Amount: {{ transaction.amount }}<br>
+            Timestamp: {{ transaction.timestamp }}
+        </p>
+    {% endfor %}
+</body>
+</html>

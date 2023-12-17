@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fund Account</title>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+</head>
+<body>
+    <h1>Fund Account</h1>
+    <form id="paymentForm" action="/payment" method="post">
+        <label for="amount">Amount:</label><br>
+        <input type="number" id="amount" name="amount"><br>
+        <button type="button" onclick="payWithPaystack(event)">Fund Account</button>
+    </form>
+
+    <script>
+        var amount = document.getElementById('amount');
+        var email;
+        
+        // Fetch the user's email from the server when the page loads
+        fetch('/get_email', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            email = data.email;
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+        
+        function payWithPaystack(e) {
+            e.preventDefault();
+            var handler = PaystackPop.setup({
+                key: 'pk_test_f372122aa820fddc82f96ba33c6ee3fd25830229',// Replace with your public key
+                email: email,
+                amount: amount.value * 100,      // Convert amount to kobo
+                currency: 'NGN',
+                ref: ''+Math.floor((Math.random() * 1000000000) + 1), // Generate a random reference number
+                callback: function(response) {
+                    // Make a POST request to your server with the reference and the amount
+                    fetch('/fund_account', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            reference: response.reference,
+                            amount: amount.value
+                        }),
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        alert(data.message);
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+                },
+                onClose: function() {
+                    alert('Transaction cancelled');
+                }
+            });
+            handler.openIframe();
+        }
+    </script>
+</body>
+</html>

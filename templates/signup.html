@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='Synchystry.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Signup</title>
+</head>
+<body class="login">
+
+     <p id = "user"> {{existing_user}}</p>
+  <div>
+    {%block content%}
+    {% with messages = get_flashed_messages() %}
+      {%if messages%}
+      {%for msg in messages%}
+        <h1 class="flashlogout">{{msg}} </h1>
+      {%endfor%}
+      {%endif%}
+    {% endwith%}
+    <form method="POST" action="/signup"  enctype="multipart/form-data">
+        <h1>Sign Up</h1>
+        <h3><label for="username">Username:</label></h3>
+        <input type="text" name="username" id="username" placeholder="username"  required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" placeholder="password" required><br><br>
+        <input type="email" name="email" id="email" id="email" placeholder="email">
+        <input type="tel" name="phone_number" id="phone" placeholder="+2349053609755"  required>
+        <label for="profile_picture">Profile Picture:</label>
+        <input type="file" id="profile_picture" name="file"  accept="image/*">
+        <button type="submit" value="Sign Up">Sign up</button><br>
+        <a href="/signin">If have an an account already just login</a>
+    </form>
+  </div>
+  {%endblock%}
+</body>
+<script src="{{url_for('static', filename='script.js')}}"></script>
+<script>
+
+</script>
+</html>

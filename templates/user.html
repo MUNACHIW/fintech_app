@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet",  href="{{url_for('static', filename='style.css')}}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
+	<link rel="stylesheet" href="{{url_for('static', filename='aos/aos.css')}}">
+	<link rel="stylesheet" href="{{url_for('static', filename='bootstrap-icons/bootstrap-icons.css')}}">
+	<link rel="stylesheet" href="{{url_for('static', filename='boxicons/css/boxicons.min.css')}}">
+	<link href="{{url_for('static', filename='glightbox/glightbox.min.css')}}" rel="stylesheet">
+	<link href="{{url_for('static', filename='remixicon/remixicon.css')}}" rel="stylesheet">
+	<link href="{{url_for('static', filename='swiper/swiper-bundle.min.css')}}" rel="stylesheet">
+    <title>Users</title>
+</head>
+<body>
+	<header id="header" class="fixed-top ">
+		<div class="container d-flex align-items-center">
+	
+		  <h1 class="logo me-auto"><a href="/">MONRCH</a></h1>
+		  <!-- Uncomment below if you prefer to use an image logo -->
+		  <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+	
+		  <nav id="navbar" class="navbar">
+			<ul>
+			  <li><a class="nav-link scrollto active" href="/">Home</a></li>
+			  <li><a class="nav-link scrollto" href="/about">About</a></li>
+			  <li><a class="nav-link scrollto" href="/transaction_history">Transctions</a></li>
+			  <li><a class="nav-link scrollto" href="/users">Users</a></li>
+			  <li><a class="nav-link   scrollto" href="/Covenant.com">About_Dev</a></li>
+			  <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+				<ul>
+				  <li><a href="/send_cash">Send_cash</a></li>
+				  <li><a href="/blog">Blog</a></li>
+				  <li><a href="/userprofile">User_Profile</a></li>
+				  <li><a href="/logout">Logout</a></li>
+				</ul>
+			  </li>
+			  <li><a class="nav-link scrollto" href="/contact">Contact</a></li>
+			  <li><a class="getstarted scrollto" href="/about">Get Started</a></li>
+			</ul>
+			<i class="bi bi-list mobile-nav-toggle"></i>
+		  </nav><!-- .navbar -->
+	
+		</div>
+	   </header>End
+
+
+
+	</div>
+
+         
+
+<section>
+<div>
+{% for user in users %}
+   <div class="usersec">
+    <img class="userimages" id="myImg" src="{{ url_for('uploaded_file', filename=user.profile_pic) }}" width="40px" height="40px" alt="Profile Picture">
+    <a href="{{ url_for('viewprofile', username=user.username) }}">{{ user.username }}</a>
+  </div>
+  {% endfor %}
+<div id="myModal" class="modal">
+	<span class="close">&times;</span>
+	<img class="modal-content" id="img01" height="95%" alt="image">
+</div>
+</div>
+</section>
+<div>
+   <h1>User rating and comments about this application:</h1>
+</div>
+<section>
+ {% if Comment %}
+ {% for comment in Comment%}
+ <div class="commentuser">
+  <img class="userimages" id="myImg" src="{{ url_for('uploaded_file', filename=comment.image) }}" width="40px" height="40px" alt="Profile Picture">
+  <h3 href="{{ url_for('viewprofile', username=user.username) }}">{{ comment.user }}</h3>
+ </div>
+  <i>{{comment.content}}</i>
+  <div class="hr"></div>
+ {%endfor%}
+ {% else %}
+ <h4>Please give me your feedback</h4>
+{% endif %}
+</section>
+ 
+{% with messages = get_flashed_messages() %}
+{%if messages%}
+{%for msg in messages%}
+  <h1 class="flashlogout">{{msg}} </h1>
+{%endfor%}
+{%endif%}
+{% endwith%}
+
+<form action="/comments" class="commentform" method="post" onsubmit=" makeItalic()">
+
+    <input type="text" placeholder="comment" id="comment" role="text" name="comment">
+    <button type="submit" class="send">Comment</button>
+</form>
+
+
+
+
+        
+</body>
+<script src="{{url_for('static', filename='script.js')}}"></script>
+</html>
